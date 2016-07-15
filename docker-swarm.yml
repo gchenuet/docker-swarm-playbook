@@ -1,8 +1,9 @@
 ---
-- name: Setup a Swarm demo platform
+- name: Pre-requisite configuration and Docker Engine setup
   hosts: all
   remote_user: debian
   become: true
 
   roles:
     - common
+    - docker

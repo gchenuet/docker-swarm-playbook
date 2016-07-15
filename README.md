@@ -1,4 +1,4 @@
-# Ansible Playbook for a Docker Swarm demo platform
+# Ansible HA Docker Swarm Cluster Playbook
 
 This playbook deploy a High Availability Docker Swarm cluster with:
 
