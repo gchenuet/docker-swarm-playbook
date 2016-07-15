@@ -1,0 +1,8 @@
+---
+- name: Setup a Swarm demo platform
+  hosts: all
+  remote_user: debian
+  become: true
+
+  roles:
+    - common

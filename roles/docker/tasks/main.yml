@@ -1,0 +1,7 @@
+---
+- name: Install Docker package
+  apt: name=docker-engine state=present
+
+- name: Start Docker Engine
+  service: name=docker state=started
+
