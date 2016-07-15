@@ -1,9 +1,9 @@
 ---
-- name: Install Docker package
+- name: Docker Engine setup
   apt: name=docker-engine state=present
 
-- name: Start Docker Engine
+- name: Starting Docker Engine daemon
   service: name=docker state=started
 
-- name: Add user to docker group
+- name: Adding user to docker group
   user: name={{ remote_user }} groups=docker
