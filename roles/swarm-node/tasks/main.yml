@@ -1,5 +1,4 @@
 ---
-
 - name: Join nodes to Docker Swarm cluster
   docker:
     name: swarm

@@ -1,6 +1,4 @@
 ---
-
-
 - name: Start Consul container
   docker_container:
     name: consul

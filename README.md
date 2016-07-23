@@ -1,4 +1,4 @@
-# Ansible HA Docker Swarm Cluster Playbook
+# Ansible Docker Swarm HA Cluster Playbook
 
 This playbook deploy a High Availability Docker Swarm cluster via Consul HA
 service.
