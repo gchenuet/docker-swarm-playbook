@@ -1,11 +1,12 @@
 ---
 
+
 - name: Start Consul container
   docker_container:
     name: consul
     image: progrium/consul
     state: started
-    command: -server -advertise {{ ansible_eth0.ipv4.address }} -bootstrap-expect 3
+    command: "-server -advertise {{ ansible_eth0.ipv4.address }} -join {{ consul_ip }}"
     volumes: /mnt:/data
     ports:
     - "{{ ansible_eth0.ipv4.address | int }}:8300:8300"
@@ -15,4 +16,16 @@
     - "{{ ansible_eth0.ipv4.address | int }}:8302:8302/udp"
     - "{{ ansible_eth0.ipv4.address | int }}:8400:8400"
     - "{{ ansible_eth0.ipv4.address | int }}:8500:8500"
-    - "{{ ansible_docker0.ipv4.address | int }}:53/udp"
+    - "{{ ansible_docker0.ipv4.address | int}}:53/udp"
+
+- name: Start Swarm container
+  docker:
+    name: swarm
+    image: swarm
+    command: "manage -H :4000 --replication --advertise {{ ansible_eth0.ipv4.address }}:4000 consul://{{ consul_ip }}:8500"
+    state: started
+    ports:
+     - "4000:4000"
+    expose:
+     - 4000
+

@@ -8,10 +8,26 @@
     - common
     - docker
 
-- name: Setup the discovery backend on consul node
+- name: Setup discovery backend on Consul node
   hosts: consul
   remote_user: debian
   become: true
 
   roles:
     - consul
+
+- name: Setup Swarm cluster on Management nodes
+  hosts: manager
+  remote_user: debian
+  become: true
+
+  roles:
+    - swarm-manager
+
+- name: Setup Swarm cluster on worker nodes
+  hosts: node
+  remote_user: debian
+  become: true
+
+  roles:
+    - swarm-node

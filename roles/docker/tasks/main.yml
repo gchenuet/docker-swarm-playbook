@@ -1,9 +1,31 @@
 ---
 - name: Docker Engine setup
-  apt: name=docker-engine state=present
+  apt: name=docker-engine state=present update_cache=yes
 
-- name: Starting Docker Engine daemon
+- name: Modify Docker deamon configuration file 1/2
+  lineinfile:
+    dest=/lib/systemd/system/docker.service
+    line=EnvironmentFile=/etc/default/docker
+    insertbefore="^ExecStart"
+
+- name: Modify Docker deamon configuration file 2/2
+  lineinfile: 
+    "dest=/lib/systemd/system/docker.service 
+    line='ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS' 
+    regexp='ExecStart='"
+
+- name: Enable TCP and Socket connection for Docker deamon
+  lineinfile:
+    dest=/etc/default/docker
+    line=DOCKER_OPTS="-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"
+    regexp="^DOCKER_OPTS"
+    insertafter="^#DOCKER_OPTS"
+
+- name: Reload Docker systemd daemon
+  command: systemctl daemon-reload
+
+- name: Start Docker Engine daemon
   service: name=docker state=started
 
-- name: Adding user to docker group
+- name: Add user to docker group
   user: name={{ remote_user }} groups=docker

@@ -1,0 +1,8 @@
+---
+
+- name: Join nodes to Docker Swarm cluster
+  docker:
+    name: swarm
+    image: swarm
+    command: "join --advertise {{ ansible_eth0.ipv4.address }}:2375 consul://{{ consul_ip }}:8500"
+    state: started
